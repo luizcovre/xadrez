@@ -1,6 +1,5 @@
 package application;
 
-import tabuleiro.Tabuleiro;
 import xadrez.PartidaXadrez;
 
 public class Program {
