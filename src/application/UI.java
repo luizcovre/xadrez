@@ -51,7 +51,7 @@ public class UI {
 		for (int i = 0; i < pecas.length; i++) {
 			System.out.print((8 - i) + " ");
 			for (int j = 0; j < pecas.length; j++) {
-				printaPeca(pecas[i][j]);
+				printaPeca(pecas[i][j], false);
 			}
 			System.out.println();
 		}
@@ -62,7 +62,7 @@ public class UI {
 		for (int i = 0; i < pecas.length; i++) {
 			System.out.print((8 - i) + " ");
 			for (int j = 0; j < pecas.length; j++) {
-				printaPeca(pecas[i][j]);
+				printaPeca(pecas[i][j], movimentosPossiveis[i][j]);
 			}
 			System.out.println();
 		}
