@@ -123,6 +123,18 @@ public class PartidaXadrez {
 		throw new IllegalStateException("Não tem peça rei "+cor+" no tabuleiro.");
 	}
 	
+	private boolean testCheck(Cor cor) {
+		Posicao posicaoRei = rei(cor).getPosicaoXadrez().toPosition();
+		List<Peca> pecasOponente = pecasNoTabuleiro.stream().filter(x -> ((PecaXadrez)x).getCor() == oponente(cor)).collect(Collectors.toList());
+		for (Peca p : pecasOponente) {
+			boolean[][] mat = p.movimentosPossiveis();
+			if (mat[posicaoRei.getLinha()][posicaoRei.getColuna()]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private void colocaNovaPeca(char coluna, int linha, PecaXadrez peca) {
 		tabuleiro.colocaPeca(peca, new PosicaoXadrez(coluna, linha).toPosition());
 		pecasNoTabuleiro.add(peca);
