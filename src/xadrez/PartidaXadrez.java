@@ -36,6 +36,10 @@ public class PartidaXadrez {
 		return jogadorAtual;
 	}
 	
+	public boolean getCheck() {
+		return check;
+	}
+	
 	public PecaXadrez[][] getPecas() {
 		PecaXadrez[][] mat = new PecaXadrez[tabuleiro.getLinhas()][tabuleiro.getColunas()];
 		for (int i = 0; i < tabuleiro.getLinhas(); i++) {
@@ -58,6 +62,14 @@ public class PartidaXadrez {
 		validaPosicaoOrigem(fonte);
 		validaPosicaoDestino(fonte, destino);
 		Peca pecaCapturada = facaMovimento(fonte, destino);
+		
+		if (testCheck(jogadorAtual)) {
+			desfazMovimento(fonte, destino, pecaCapturada);
+			throw new ExceptionXadrez("Você não pode se colocar em check.");
+		}
+		
+		check = (testCheck(oponente(jogadorAtual))) ? true : false;
+		
 		proximoTurno();
 		return (PecaXadrez) pecaCapturada;
 	}
