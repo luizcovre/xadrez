@@ -121,7 +121,7 @@ public class PartidaXadrez {
 		if (promoted == null) {
 			throw new IllegalStateException("Não tem peça a ser promovida.");
 		}
-		if (!type.equals("B") && !type.equals("C") && !type.equals("T") && !type.equals("D")) {
+		if (!type.equals("B") && !type.equals("C") && !type.equals("T") && !type.equals("R")) {
 			return promoted;
 		}
 		
@@ -139,7 +139,7 @@ public class PartidaXadrez {
 	private PecaXadrez novaPeca(String type, Cor cor) {
 		if (type.equals("B")) return new Bispo(tabuleiro, cor);
 		if (type.equals("C")) return new Cavalo(tabuleiro, cor);
-		if (type.equals("D")) return new Rainha(tabuleiro, cor);
+		if (type.equals("R")) return new Rainha(tabuleiro, cor);
 		return new Torre(tabuleiro, cor);
 	}
 	
