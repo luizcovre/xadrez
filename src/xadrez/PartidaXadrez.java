@@ -53,7 +53,7 @@ public class PartidaXadrez {
 	public PecaXadrez getEnPassantVulneravel() {
 		return enPassantVulneravel;
 	}
-	
+
 	public PecaXadrez[][] getPecas() {
 		PecaXadrez[][] mat = new PecaXadrez[tabuleiro.getLinhas()][tabuleiro.getColunas()];
 		for (int i = 0; i < tabuleiro.getLinhas(); i++) {
@@ -82,8 +82,8 @@ public class PartidaXadrez {
 			throw new ExceptionXadrez("Você não pode se colocar em check.");
 		}
 
-		PecaXadrez pecaMovida = (PecaXadrez)tabuleiro.peca(destino);
-		
+		PecaXadrez pecaMovida = (PecaXadrez) tabuleiro.peca(destino);
+
 		check = (testCheck(oponente(jogadorAtual))) ? true : false;
 
 		if (testCheck(oponente(jogadorAtual))) {
@@ -93,13 +93,13 @@ public class PartidaXadrez {
 		}
 
 		// movimento especial en Passant
-		if (pecaMovida instanceof Peao && (destino.getLinha() == origem.getLinha() - 2) || destino.getLinha() == origem.getLinha() + 2) {
+		if (pecaMovida instanceof Peao && (destino.getLinha() == origem.getLinha() - 2)
+				|| destino.getLinha() == origem.getLinha() + 2) {
 			enPassantVulneravel = pecaMovida;
-		}
-		else {
+		} else {
 			enPassantVulneravel = null;
 		}
-		
+
 		return (PecaXadrez) pecaCapturada;
 	}
 
@@ -132,6 +132,21 @@ public class PartidaXadrez {
 			torre.incrementaContaMovimentos();
 		}
 
+		// movimento especial en Passant
+		if (p instanceof Peao) {
+			if (origem.getColuna() != destino.getColuna() && pecaCapturada == null) {
+				Posicao posicaoPeao;
+				if (p.getCor() == Cor.BRANCO) {
+					posicaoPeao = new Posicao(destino.getLinha() + 1, destino.getColuna());
+				} else {
+					posicaoPeao = new Posicao(destino.getLinha() - 1, destino.getColuna());
+				}
+				pecaCapturada = tabuleiro.removePeca(posicaoPeao);
+				pecasCapturadas.add(pecaCapturada);
+				pecasNoTabuleiro.remove(pecaCapturada);
+			}
+		}
+
 		return pecaCapturada;
 	}
 
@@ -162,6 +177,20 @@ public class PartidaXadrez {
 			PecaXadrez torre = (PecaXadrez) tabuleiro.removePeca(destinoT);
 			tabuleiro.colocaPeca(torre, origemT);
 			torre.decrementaContaMovimentos();
+		}
+
+		// movimento especial en Passant
+		if (p instanceof Peao) {
+			if (origem.getColuna() != destino.getColuna() && pecaCapturada == enPassantVulneravel) {
+				PecaXadrez peao = (PecaXadrez)tabuleiro.removePeca(destino);
+				Posicao posicaoPeao;
+				if (p.getCor() == Cor.BRANCO) {
+					posicaoPeao = new Posicao(3, destino.getColuna());
+				} else {
+					posicaoPeao = new Posicao(4, destino.getColuna());
+				}
+				tabuleiro.colocaPeca(peao, posicaoPeao);
+			}
 		}
 	}
 
